@@ -105,7 +105,7 @@
           <br>
           <p style="text-align: left;padding: 0px 30px;">
               Our project consists of a robot that can move forward, backward, turn left, and turn right depending on inputs from a wireless accelerometer on a phone. The robot can also capture audio through a microphone and video imaging using a camera, both configured onto the robot. The image and audio are transmitted to a phone via WiFi.
-              <br>  
+              <br>
               By the end of our 5 weeks, we have successfully accomplished the following :
             <ul style="text-align: left;padding: 0px 30px;">
               <li>Implemented socket programming for communication between the robot and phone</li>
@@ -130,11 +130,30 @@
       <div style="text-align:center;">
               <h2>Camera</h2>
               <p style="text-align: left;padding: 0px 30px;">
-              	Used the Rpi Camera.
-              	We set up the camera on the pi as such :
-              		detail steps in how its done.
-              	Used this person's code to see it online.
-              	Explain the code?
+              	We used the Raspberry Pi camera and installed it following this
+                <a href="https://thepihut.com/blogs/raspberry-pi-tutorials/16021420-how-to-install-use-the-raspberry-pi-camera">tutorial</a>.
+
+                We first connected the camera in the slot in the Raspberry Pi,
+                which is between the HDMI and Ethernet ports,
+                with the silver connectors facing the HDMI port.
+
+                Then we ran <code> sudo raspi-config</code> in the terminal
+                to enable the camera. This is achieved by selecting
+                <code> 5 Interfaceing Options -> P1 Camera -> Yes</code>.
+
+                If the camera option is not available, then an update needs
+                to be made, which in this case, <code>sudo apt-get update</code>
+                and <code>sudo apt-get upgrade</code> would need to be run in
+                the terminal window.
+
+                After enabling the camera,
+                we rebooted (<code>sudo reboot</code>)the Raspberry Pi.
+
+- 5 Interfacing Options
+    - P1 Camera
+        - Yes
+                </picture>
+
               </p>
       </div>
 
@@ -165,9 +184,9 @@
           </p>
 <br>
           <p style="text-align: left;padding: 0px 30px;">
-            We were able to get the livestream video and audio by using webView on the android phone through this <a href="https://medium.com/@stevesohcot/andriod-studio-webview-tutorial-4651701d7d1a">tutorial</a>. We initially tried to use videoView and vitamio but could not get that to work. 
+            We were able to get the livestream video and audio by using webView on the android phone through this <a href="https://medium.com/@stevesohcot/andriod-studio-webview-tutorial-4651701d7d1a">tutorial</a>. We initially tried to use videoView and vitamio but could not get that to work.
             <br><br>
-            As in the tutorial, we initialized a WebView variable and set it up in the onCreate section as such : 
+            As in the tutorial, we initialized a WebView variable and set it up in the onCreate section as such :
           </p>
           <div align="left">
             <pre><code>
@@ -195,7 +214,7 @@
           </p>
           <h4 style="text-align: left;padding: 0px 30px;">Bugs</h4>
           <p style="text-align: left;padding: 0px 30px;">
-            If the phone still cannot access the website, one should check their AndroidManifext.xml file (under the manifests folder) if it has the 
+            If the phone still cannot access the website, one should check their AndroidManifext.xml file (under the manifests folder) if it has the
             <b>&lt;uses-permission android:name="android.permission.INTERNET"/&gt;</b> line included. We also found a bug where the phone could not access the website if it was not under the same Cornell Wifi as the robot. So, one should make sure that if the Pi is livestreaming the camera and audio information online under the Cornell Wifi that the phone is also using the Cornell Wifi (not data).
           </p>
 
@@ -209,23 +228,23 @@
               <img class="img-rounded" src="pics/accelerometer.png" alt="Phone coordinate system for sensors" width="240" height="240">
               </div>
               <br>
-              <p style="text-align: left;padding: 0px 30px;"> 
-              To control the robot wirelessly, we needed to create a socket to send accelerometer information from the phone (the server) to be received by the Raspberry Pi (the client). All code can be either seen in the Code Appendix section or on the <a href="https://github.com/cya6/WifiRobot">github repository</a>.
-              </p> 
+              <p style="text-align: left;padding: 0px 30px;">
+              To control the robot wirelessly, we needed to create a socket to send accelerometer information from the phone (the server) to be received by the Raspberry Pi (the client). All code can be either seen in the Code Appendix section or on the <a href="https://github.com/cya6/WifiRobot">GitHub repository</a>.
+              </p>
               <h3>1. Configuring the Phone's Accelerometer </h3>
-              <p style="text-align: left;padding: 0px 30px;"> 
+              <p style="text-align: left;padding: 0px 30px;">
                 We configured the phone's accelerometer using AndroidStudio to create an application.
-                To configure and use the accelerometer within the phone through the app, we followed some tutorials that showed us how to set up and print out the accelerometer values: 
+                To configure and use the accelerometer within the phone through the app, we followed some tutorials that showed us how to set up and print out the accelerometer values:
                 <br><br>
                 <a href="https://www.youtube.com/watch?v=pkT7DU1Yo9Q&t=682s">Set up accelerometer</a>
                 <br>
                 <a href="https://www.youtube.com/watch?v=Rda_5s4rObQ">Print out accelerometer values</a>
                 <br><br>
-                
+
                 First, we used an empty template through Android Studio. Then, we followed the tutorial, adding the SensorManager and Sensor variables to the MainActivity class. Next, inside the onCreate function, we configure the SensorManager and Sensor to get information from the phone's accelerometer. Although the tutorial uses the standard default accelerometer, we chose to use the rotation vector accelerometer as it seemed more able to sense turning the phone more easily. An overview of the available sensors on the phone can be seen <a href="https://developer.android.com/guide/topics/sensors/sensors_motion.html">here</a>.
                 <br><br>
                 We also then configure the SensorManager to allow us listen to the information from the phone's accelerometer. Next, by using the sensor class, there are two functions that must be included in the MainActivity file : onAccuracyChanged and onSensorChanged. For our purposes, we only use onSensorChanged since we only wanted to read the x, y, and z values output by the accelerometer. In the onSensorChanged function, it takes in a sensor event which then contains the x, y, and z values from the sensor. We then save this information by saving the read values to a string.
-                <br> 
+                <br>
               </p>
                 <div align = "left">
                 <pre><code>
@@ -265,23 +284,23 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
                 </code></pre>
               </div>
-              <p style="text-align: left;padding: 0px 30px;"> 
-                To see the accelerometer values for yourself, you can use Log.d to print out the values to Android Studio's Logcat. Next, after setting up the accelerometer on the phone, we needed to send it to the RPi. 
+              <p style="text-align: left;padding: 0px 30px;">
+                To see the accelerometer values for yourself, you can use Log.d to print out the values to Android Studio's Logcat. Next, after setting up the accelerometer on the phone, we needed to send it to the RPi.
               </p>
               <h3>2. Sending information to the RPi with Socket Programming </h3>
 
               <h4 style="text-align: left; padding: 0px 30px">Server side ( Android Application )</h4>
-              <p style="text-align: left;padding: 0px 30px;"> 
-                We used socket programming to send information from the phone to the RPi. The phone was set up as the server by following the information <a href="http://androidsrc.net/android-client-server-using-sockets-server-implementation/">here</a>. 
+              <p style="text-align: left;padding: 0px 30px;">
+                We used socket programming to send information from the phone to the RPi. The phone was set up as the server by following the information <a href="http://androidsrc.net/android-client-server-using-sockets-server-implementation/">here</a>.
                 <br><br>
-                Following this tutorial, after setting up the server as they did, we changed some parts of it to send to the client the accelerometer information continuously. In MainActivity.java, we initialize the server in onCreate. We also include a function that will destroy the server when the application is closed. 
+                Following this tutorial, after setting up the server as they did, we changed some parts of it to send to the client the accelerometer information continuously. In MainActivity.java, we initialize the server in onCreate. We also include a function that will destroy the server when the application is closed.
                 <div align="left">
                   <pre><code>
         public class MainActivity extends AppCompatActivity implements SensorEventListener {
           Server server ;
           ...
 
-          @Override 
+          @Override
           protected void onCreate(Bundle savedInstanceState) {
             ...
             server = newServer(this);
@@ -338,7 +357,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
               </div>
               <br>
               <h4 style="text-align: left; padding: 0px 30px">Client side ( from the RPi point of view )</h4>
-              <p style="text-align: left;padding: 0px 30px;"> 
+              <p style="text-align: left;padding: 0px 30px;">
                 To set up the client code on the Raspberry Pi, we followed the "Echo Client" code in this <a href="https://realpython.com/python-sockets/">tutorial</a>.
                 <br>
                 The HOST value was set to the IP address of the android phone ( which can be found by clicking on the wifi button on your phone ).
@@ -349,12 +368,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
               <p style="text-align: left;padding: 0px 30px;">
                 Finally, to move the robot, we read from the FIFO and based on the values from the accelerometer, decide to turn left, right, forward, or backwards. Code for this is found in our repository, under <a href="https://github.com/cya6/WifiRobot/blob/master/project/robot_control.py">robot_control.py</a>.
                 <br><br>
-                To allow the user to stand in any direction and start moving the robot, we first allow for a calibration period in the beginning where it will set the x and z values read to be the setting for which the user wishes to keep the robot still. 
+                To allow the user to stand in any direction and start moving the robot, we first allow for a calibration period in the beginning where it will set the x and z values read to be the setting for which the user wishes to keep the robot still.
                 <br>
                 Next, after it is calibrated, it continues to read lines from the FIFO. We realized that when the phone (set horizontally) is tilted forward, the z value goes up by 0.1 and x value down by 0.1 from its steady state. To prevent from false forwards however, we set the code up so that it must detect this at least twice before it goes forward. Similarly, to go backwards, it detects that the z value goes down by 0.1 and x value up by 0.1 from its steady state. These threshold values were decided on after trial and error and may need to be adjusted if used on another device.
-                We also use a buffer here before we actually decide to move the robot backwards. If neither of these conditions are detected, we keep the robot still. 
+                We also use a buffer here before we actually decide to move the robot backwards. If neither of these conditions are detected, we keep the robot still.
                 <br> <br>
-                To go left or right, we depend solely on the x values read from the accelerometer. We also prevent the robot from turning if the user is going forward or backwards at that moment. To go right, we see if the x value goes down by 0.1 and to go left, if it goes up by 0.05. Similarly, this values were also found through trial and error and may need to be adjusted if run on another device. We also use a buffer here to detect more than 2 lefts or rights before the robot will actually turn right or left. If neither are detected, it will remain still. 
+                To go left or right, we depend solely on the x values read from the accelerometer. We also prevent the robot from turning if the user is going forward or backwards at that moment. To go right, we see if the x value goes down by 0.1 and to go left, if it goes up by 0.05. Similarly, this values were also found through trial and error and may need to be adjusted if run on another device. We also use a buffer here to detect more than 2 lefts or rights before the robot will actually turn right or left. If neither are detected, it will remain still.
                 <br>
 
               </p>
@@ -406,7 +425,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
           <ul>
               <li><a href="https://www.amazon.com/Raspberry-Pi-Camera-Module-Megapixel/dp/B01ER2SKFS">Raspberry Pi Camera V2 $25.00</a></li>
               <li><a href="https://www.amazon.com/eBerry-Microphone-Adjustable-Compatible-Recording/dp/B00UZY2YQE">Microphone $8</a></li>
-              <li>Phone - Used student's existing phone </li>
+              <li>Phone - Used student's existing android phone </li>
               <li>Raspberry Pi, LEDs, Resistors, Wires, Robot Parts- Provided in lab</li>
           </ul>
           <h3>Total: $33</h3>
