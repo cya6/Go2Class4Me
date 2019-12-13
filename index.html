@@ -139,7 +139,7 @@
 
                 Then we ran <code> sudo raspi-config</code> in the terminal
                 to enable the camera. This is achieved by selecting
-                <code> 5 Interfaceing Options -> P1 Camera -> Yes</code>.
+                <em> 5 Interfacing Options -> P1 Camera -> Yes</em>.
 
                 If the camera option is not available, then an update needs
                 to be made, which in this case, <code>sudo apt-get update</code>
@@ -149,10 +149,32 @@
                 After enabling the camera,
                 we rebooted (<code>sudo reboot</code>)the Raspberry Pi.
 
-- 5 Interfacing Options
-    - P1 Camera
-        - Yes
-                </picture>
+                <br><br>
+
+                We played around with the camera by taking photos (<code>raspistill -o image.jpg</code>)
+                and videos (<code>raspivid -o video.h264 -t 10000</code>).
+                This can be viewed using <code> gpicview image.jpg </code>
+                for photos and <code> omxplayer -o hdmi /path/to/filename.mp4 </code>
+                for videos.
+
+                <br><br>
+
+                For livestreaming video, we followed the following
+                <a href="https://randomnerdtutorials.com/video-streaming-with-raspberry-pi-camera/?fbclid=IwAR2VapDATNAdWZw4prG8uiNBKwqL0IXu7jidJOO81o0FDb9PHFSmfcW6Odc">tutorial</a>
+                and used this <a href="https://raw.githubusercontent.com/RuiSantosdotme/Random-Nerd-Tutorials/master/Projects/rpi_camera_surveillance_system.py">code</a>
+                to stream the live video feed to a website http://<Your_Pi_IP_Address>:8000.
+
+                We accessed the video streaming through an Android phone that
+                is connected to the same WiFi network, enabling the user on the
+                phone end to view the live feed of the camera without being in
+                the same area as the camera. We were able to get this to work with
+                very little latency. 
+
+                <br><br>
+
+                <img class="img-rounded" src="pics/camera1.HEIC" alt="testing camera" width="240" height="240">
+                <p><i>Camera live feed showing up on phone</i></p>
+
 
               </p>
       </div>
@@ -469,6 +491,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
               <h3><a href="https://github.com/cya6/WifiRobot/blob/master/project/client.py">Client Code</a> </h3>
               <h3><a href="https://github.com/cya6/WifiRobot/blob/master/project/rpi_camera.py">Camera Code</a> </h3>
               <h3><a href="https://github.com/cya6/WifiRobot/blob/master/project/rpi_camera.py">Phone Application Code</a> </h3>
+              <h3><a href="https://raw.githubusercontent.com/RuiSantosdotme/Random-Nerd-Tutorials/master/Projects/rpi_camera_surveillance_system.py">Camera Web Streaming Code</a> </h3>
+
       </div>
 
     </div><!-- /.container -->
