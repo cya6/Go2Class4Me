@@ -75,15 +75,16 @@
 
       <div style="text-align:center;">
               <h2>Introduction</h2>
-              <p style="text-align: left;padding: 0px 30px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum lorem nulla, consectetur at leo vel, pretium bibendum nisl. Cras blandit quam a enim ultrices, eu convallis enim posuere. Donec eleifend enim sed purus consectetur, vitae cursus lectus varius. Vivamus consectetur felis nec est venenatis posuere. Phasellus vitae aliquet erat. In laoreet lacinia mollis. Quisque iaculis nisl fermentum pharetra lobortis. Donec rhoncus dui sem, ac molestie leo tristique vel. Phasellus in nibh feugiat, fringilla lectus in, elementum magna. Etiam quis dui condimentum, tempus ex in, dapibus est. Cras ut congue augue. Donec ac enim ex. Ut id tristique risus, vel porttitor quam. Sed ultricies enim eu nibh porttitor, vel sodales enim feugiat. Fusce volutpat venenatis magna ac ultrices. Curabitur eget urna ut nulla mattis convallis non eu diam.</p>
+              <p style="text-align: left;padding: 0px 30px;">
+                One day at Cornell University, two students, Christine and Sophie were wondering what they should do for their final project in their Embedded OS class. While walking to their classes, they realized, "Ah, winter is coming" and there, an idea popped in both of their minds. What if something could go to class in their stead? Instead of walking to class in the cold weather, especially when it starts to snow, we could just virtually be there through a robot? And even better, on days where we are just too tired to get out of bed, this robot could still go to class for us!
+                <br><br>
+                For any time, whether you are too lazy to get out of bed or the slushy snow outside is too serious of a slipping hazard, here we introduce and propose a wirelessly controlled robot that can go to class for students. While in your bed, all you need to do is open the app, and then move your phone to move the robot!
+              </p>
       </div>
 
     <hr id='obj'>
 
       <div class="row">
-          <div class="col-md-4" style="text-align:center;">
-          <img class="img-rounded" src="pics/1.jpg" alt="Generic placeholder image" width="240" height="240">
-          </div>
           <div class="col-md-8" style="font-size:18px;">
           <h2>Project Objective:</h2>
           <ul>
@@ -97,15 +98,31 @@
     <hr id='design'>
 
       <div style="text-align:center;">
-              <h2>Design</h2>
-              <p style="text-align: left;padding: 0px 30px;">
-              Put stuff from proposal here.
-              <li>Socket Programming </li>
-              <li>Built robot </li>
-              <li>Configured servos </li>
-              <li>Set up Camera and Microphone and livestreamed it online</li>
-              <li>Set up phone's accelerometer information to send to pi </li>
+          <h2>Design</h2>
+          <br>
+          <img class="img-rounded" src="pics/system_diagram.jpg" alt="system diagram" width="541" height="373">
+          <p><i>Diagram of the overall system of our project </i></p>
+          <br>
+          <p style="text-align: left;padding: 0px 30px;">
+              Our project consists of a robot that can move forward, backward, turn left, and turn right depending on inputs from a wireless accelerometer on a phone. The robot can also capture audio through a microphone and video imaging using a camera, both configured onto the robot. The image and audio are transmitted to a phone via WiFi.
+              <br>  
+              By the end of our 5 weeks, we have successfully accomplished the following :
+            <ul style="text-align: left;padding: 0px 30px;">
+              <li>Implemented socket programming for communication between the robot and phone</li>
+              <li>Built robot using materials provided in Lab 3</li>
+              <li>Configured servos for the robot's motion through PWM signals</li>
+              <li>Set up Camera and Microphone and livestreamed it online to a website</li>
+              <li>Set up phone's accelerometer information to send to pi</li>
+              <li>Created an application for the phone to diplay the livestream video and audio</li>
+            </ul>
           </p>
+          <br><br>
+          <div class="robo_images" style="text-align:center;">
+          <img class="img-rounded" src="pics/robot_front.jpg" alt="robot_front" width="240" height="240">
+          <img class="img-rounded" src="pics/robot_right.jpg" alt="robot_right" width="240" height="240">
+          <img class="img-rounded" src="pics/robot_left.jpg" alt="robot_left" width="240" height="240">
+          <img class="img-rounded" src="pics/robot_back.jpg" alt="robot_back" width="240" height="240">
+          </div>
       </div>
 
     <hr id='camera'>
