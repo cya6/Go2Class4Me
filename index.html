@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Starter Template for Bootstrap</title>
+    <title>Go 2 Class 4 Me</title>
 
     <!-- Bootstrap core CSS -->
     <link href="dist/css/bootstrap.min.css" rel="stylesheet">
@@ -42,6 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
+
           <a class="navbar-brand" href="#">Go 2 Class 4 Me</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
@@ -50,7 +51,6 @@
             <li><a href="#intro">Introduction</a></li>
             <li><a href="#obj">Project Objective</a></li>
             <li><a href="#design">Design</a></li>
-            <li><a href="#drawings">Drawings</a></li>
             <li><a href="#testing">Testing</a></li>
             <li><a href="#result">Result</a></li>
           </ul>
@@ -87,9 +87,9 @@
           <div class="col-md-8" style="font-size:18px;">
           <h2>Project Objective:</h2>
           <ul>
-              <li>some important objectives.some important objectives.some important objectives.some important objectives.</li>
-                <li>some other important objectives.</li>
-            <li>some not-that-important objectives.</li>
+              <li>Control the robot wirelessly using a phone.</li>
+              <li>See and hear what the robot sees and hears through the phone.</li>
+              <li>Feel that one could possibly have the robot go to class for them.</li>
           </ul>
           </div>
       </div>
@@ -98,28 +98,130 @@
 
       <div style="text-align:center;">
               <h2>Design</h2>
-              <p style="text-align: left;padding: 0px 30px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum lorem nulla, consectetur at leo vel, pretium bibendum nisl. Cras blandit quam a enim ultrices, eu convallis enim posuere. Donec eleifend enim sed purus consectetur, vitae cursus lectus varius. Vivamus consectetur felis nec est venenatis posuere. Phasellus vitae aliquet erat. In laoreet lacinia mollis. Quisque iaculis nisl fermentum pharetra lobortis. Donec rhoncus dui sem, ac molestie leo tristique vel. Phasellus in nibh feugiat, fringilla lectus in, elementum magna. Etiam quis dui condimentum, tempus ex in, dapibus est. Cras ut congue augue. Donec ac enim ex. Ut id tristique risus, vel porttitor quam. Sed ultricies enim eu nibh porttitor, vel sodales enim feugiat. Fusce volutpat venenatis magna ac ultrices. Curabitur eget urna ut nulla mattis convallis non eu diam.</p>
+              <p style="text-align: left;padding: 0px 30px;">
+              Put stuff from proposal here.
+              <li>Socket Programming </li>
+              <li>Built robot </li>
+              <li>Configured servos </li>
+              <li>Set up Camera and Microphone and livestreamed it online</li>
+              <li>Set up phone's accelerometer information to send to pi </li>
+          </p>
       </div>
 
-    <hr id='drawings'>
+    <hr id='camera'>
 
       <div style="text-align:center;">
-              <h2>Drawings</h2>
-              <p style="text-align: left;padding: 0px 30px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum lorem nulla, consectetur at leo vel, pretium bibendum nisl. Cras blandit quam a enim ultrices, eu convallis enim posuere. Donec eleifend enim sed purus consectetur, vitae cursus lectus varius. Vivamus consectetur felis nec est venenatis posuere. Phasellus vitae aliquet erat. In laoreet lacinia mollis. Quisque iaculis nisl fermentum pharetra lobortis. Donec rhoncus dui sem, ac molestie leo tristique vel. Phasellus in nibh feugiat, fringilla lectus in, elementum magna. Etiam quis dui condimentum, tempus ex in, dapibus est. Cras ut congue augue. Donec ac enim ex. Ut id tristique risus, vel porttitor quam. Sed ultricies enim eu nibh porttitor, vel sodales enim feugiat. Fusce volutpat venenatis magna ac ultrices. Curabitur eget urna ut nulla mattis convallis non eu diam.</p>
+              <h2>Camera</h2>
+              <p style="text-align: left;padding: 0px 30px;">
+              	Used the Rpi Camera.
+              	We set up the camera on the pi as such :
+              		detail steps in how its done.
+              	Used this person's code to see it online.
+              	Explain the code?
+              </p>
+      </div>
+
+      <hr id='audio'>
+
+      <div style="text-align:center;">
+              <h2>Audio</h2>
+              <p style="text-align: left;padding: 0px 30px;">
+             <li>We used this microphone < put info on it here >
+             <li>We set up the audio < detail steps on how its done >
+             <li>It plays on a website.
+             <li>Edited the rpi camera code to put the audio on the website as well.
+             <li>Comments: the microphone sucks. Possible improvement is to use an earphone's mic instead.
+          </p>
+      </div>
+
+      <hr id='control'>
+
+      <div style="text-align:center;">
+              <h2>Controlling the Robot with a Phone</h2>
+              <p style="text-align: left;padding: 0px 30px;"> 
+              To control the robot wirelessly, we needed to create a socket to send accelerometer information from the phone (the server) to be received by the Raspberry Pi (the client). 
+              </p> 
+              <h3>1. Configuring the Phone's Accelerometer </h3>
+              <p style="text-align: left;padding: 0px 30px;"> 
+                We configured the phone's accelerometer using AndroidStudio to create an application.
+                To configure and use the accelerometer within the phone through the app, we followed some tutorials that showed us how to set up and print out the accelerometer values: 
+                <br><br>
+                <a href="https://www.youtube.com/watch?v=pkT7DU1Yo9Q&t=682s">Set up accelerometer</a>
+                <br>
+                <a href="https://www.youtube.com/watch?v=Rda_5s4rObQ">Print out accelerometer values</a>
+                <br><br>
+                
+                First, we used an empty template through Android Studio. Then, we followed the tutorial, adding the SensorManager and Sensor variables to the MainActivity class. Next, inside the onCreate function, we configure the SensorManager and Sensor to get information from the phone's accelerometer. Although the tutorial uses the standard default accelerometer, we chose to use the rotation vector accelerometer as it seemed more able to sense turning the phone more easily. An overview of the available sensors on the phone can be seen <a href="https://developer.android.com/guide/topics/sensors/sensors_motion.html">here</a>.
+                <br><br>
+                We also then configure the SensorManager to allow us listen to the information from the phone's accelerometer. Next, by using the sensor class, there are two functions that must be included in the MainActivity file : onAccuracyChanged and onSensorChanged. For our purposes, we only use onSensorChanged since we only wanted to read the x, y, and z values output by the accelerometer. In the onSensorChanged function, it takes in a sensor event which then contains the x, y, and z values from the sensor. We then save this information by saving the read values to a string.
+                <br> 
+              </p>
+
+                <div align = "left">
+                <pre><code>
+public class MainActivity extends AppCompatActivity implements SensorEventListener {
+
+    private static final String TAG = "MainActivity";
+    private SensorManager sensorManager;
+    private Sensor accelerometer;
+
+    String x,y,z;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
+
+        sensorManager.registerListener(MainActivity.this,accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        Log.d(TAG, "X: " + event.values[0] + " |Y: " + event.values[1]);
+
+        x = "xValue: "+event.values[0];
+        y = "yValue: "+event.values[1];
+        z = "zValue: "+event.values[2];
+
+    }
+                </code></pre>
+              </div>
+              <p style="text-align: left;padding: 0px 30px;"> 
+                To see the accelerometer values for yourself, you can use Log.d to print out the values to Android Studio's Logcat. Next, after setting up the accelerometer on the phone, we needed to send it to the RPi. 
+              </p>
+              <h3>2. Sending information to the RPi with Socket Programming </h3>
+              <p style="text-align: left;padding: 0px 30px;"> 
+              </p>
+              <h3>3. Moving the robot with the accelerometer information</h3>
+              <p style="text-align: left;padding: 0px 30px;">
+              </p>
       </div>
 
     <hr id='testing'>
 
       <div style="text-align:center;">
               <h2>Testing</h2>
-              <p style="text-align: left;padding: 0px 30px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum lorem nulla, consectetur at leo vel, pretium bibendum nisl. Cras blandit quam a enim ultrices, eu convallis enim posuere. Donec eleifend enim sed purus consectetur, vitae cursus lectus varius. Vivamus consectetur felis nec est venenatis posuere. Phasellus vitae aliquet erat. In laoreet lacinia mollis. Quisque iaculis nisl fermentum pharetra lobortis. Donec rhoncus dui sem, ac molestie leo tristique vel. Phasellus in nibh feugiat, fringilla lectus in, elementum magna. Etiam quis dui condimentum, tempus ex in, dapibus est. Cras ut congue augue. Donec ac enim ex. Ut id tristique risus, vel porttitor quam. Sed ultricies enim eu nibh porttitor, vel sodales enim feugiat. Fusce volutpat venenatis magna ac ultrices. Curabitur eget urna ut nulla mattis convallis non eu diam.</p>
+              <p style="text-align: left;padding: 0px 30px;">
+                test
+              </p>
       </div>
 
     <hr id='result'>
 
       <div style="text-align:center;">
               <h2>Result</h2>
-              <p style="text-align: left;padding: 0px 30px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum lorem nulla, consectetur at leo vel, pretium bibendum nisl. Cras blandit quam a enim ultrices, eu convallis enim posuere. Donec eleifend enim sed purus consectetur, vitae cursus lectus varius. Vivamus consectetur felis nec est venenatis posuere. Phasellus vitae aliquet erat. In laoreet lacinia mollis. Quisque iaculis nisl fermentum pharetra lobortis. Donec rhoncus dui sem, ac molestie leo tristique vel. Phasellus in nibh feugiat, fringilla lectus in, elementum magna. Etiam quis dui condimentum, tempus ex in, dapibus est. Cras ut congue augue. Donec ac enim ex. Ut id tristique risus, vel porttitor quam. Sed ultricies enim eu nibh porttitor, vel sodales enim feugiat. Fusce volutpat venenatis magna ac ultrices. Curabitur eget urna ut nulla mattis convallis non eu diam.</p>
+              <p style="text-align: left;padding: 0px 30px;">
+                final res
+              </p>
       </div>
 
     <hr>
@@ -159,10 +261,13 @@
       <div style="font-size:18px">
           <h2>References</h2>
           <a href="https://picamera.readthedocs.io/">PiCamera Document</a><br>
-          <a href="http://www.micropik.com/PDF/SG90Servo.pdf">Tower Pro Servo Datasheet</a><br>
-          <a href="http://getbootstrap.com/">Bootstrap</a><br>
-          <a href="http://abyz.co.uk/rpi/pigpio/">Pigpio Library</a><br>
-          <a href="https://sourceforge.net/p/raspberry-gpio-python/wiki/Home/">R-Pi GPIO Document</a><br>
+          <a href="https://www.youtube.com/watch?v=pkT7DU1Yo9Q&t=682s">Accelerometer Tutorial 1
+          </a><br>
+          <a href="https://www.youtube.com/watch?v=Rda_5s4rObQ">Accelerometer Tutorial 2
+          </a><br>
+          <a href="https://developer.android.com/guide/topics/sensors/sensors_motion.html"> Android Sensor Information
+          </a><br>
+
 
       </div>
 
@@ -170,11 +275,111 @@
 
       <div class="row">
               <h2>Code Appendix</h2>
+              <h3>Robot Control Code </h3>
               <pre><code>
-// Hello World.c
-int main(){
-  printf("Hello World.\n");
-}
+import RPi.GPIO as GPIO
+import time
+import pygame
+import sys
+from pygame.locals import *
+import os
+
+stop_d = 0
+stop_f = 1/(0.0215)
+run = True
+
+#CONTROL INITIALIZATION--------------------------------
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(16, GPIO.OUT)
+GPIO.setup(5, GPIO.OUT)
+
+#left
+p1 = GPIO.PWM(16, 46.1)
+p1.start(0)
+
+#right
+p2 = GPIO.PWM(5, 46.1)
+p2.start(0)
+#--------------------------------------------------
+
+#direction clockwise = 1, stop = 0, counter = -1
+def full_speed (servo, direction) :
+    if ( direction == 1 ) :
+        if ( servo == 1 ) :
+            # Make it go clockwise
+        if ( servo == 2 ):
+            # Make it go clockwise
+    if ( direction == 0 ) :
+        if ( servo == 1 ) :
+            # Make it stop
+        if ( servo == 2 ):
+            # Make it stop
+    if ( direction == -1 ) :
+        if ( servo == 1 ) :
+            # Make it go counterclockwise
+        if ( servo == 2 ) :
+            # Make it go counterclockwise
+
+def left_turn():
+    start = time.time()
+    while ( time.time() - start < 1.3 ) :
+        full_speed(1, 0)
+        full_speed(2, 1)
+
+def forward() :
+    full_speed(1,1)
+    full_speed(2,1)
+
+def backward():
+    full_speed(1,-1)
+    full_speed(2,-1)
+
+def right_turn():
+    start = time.time()
+    while ( time.time() - start < 1.3) :
+        full_speed(2,0)
+        full_speed(1,1)
+
+def stop():
+    full_speed(2,0)
+    full_speed(1,0)
+
+FIFO = '/home/pi/WifiRobot/project/robot_fifo'
+
+try :
+    run = True
+    fifo = open(FIFO)
+    y = 0
+    x = 0
+
+    while run :
+        time.sleep(0.2)
+        #Read from FIFO
+        while True:                              
+            line = fifo.read()
+            if len(line) > 2 :
+                
+                #Move robot according to accelerometer readings
+                split_line =  line.split( "\n" )
+                for l in split_line :
+                    t = l.split(":")
+
+                    #Move forward or backwards depending on the ZValue
+                    if ( t[0] == "zValue" ) :
+                        z = float(t[1])
+                        #Based on z value, go forward, backwards, or stay still
+
+                    #Move left or right
+                    elif ( t[0] == "xValue" ):
+                        x = float(t[1])
+                        # Based on x value, go right, left, or stay still
+
+            
+
+except KeyboardInterrupt:
+    p1.stop()
+    p2.stop()
+    GPIO.cleanup()
               </code></pre>
       </div>
 
