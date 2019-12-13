@@ -134,12 +134,57 @@
           </p>
       </div>
 
+      <hr id='androidscreen'>
+
+      <div style="text-align:center;">
+          <h2>Android Application</h2>
+          <p style="text-align: left;padding: 0px 30px;">
+            We were able to get the livestream video and audio by using webView on the android phone through this <a href="https://medium.com/@stevesohcot/andriod-studio-webview-tutorial-4651701d7d1a">tutorial</a>. We initially tried to use videoView and vitamio but could not get that to work. 
+            <br><br>
+            As in the tutorial, we initialized a WebView variable and set it up in the onCreate section as such : 
+          </p>
+          <div align="left">
+            <pre><code>
+      public class MainActivity extends AppCompatActivity implements SensorEventListener {
+        private WebView webview ;
+        ...
+        @Override
+        protected void onCreate (Bundle savedInstanceState) {
+        ...
+        webview =(WebView)findViewById(R.id.webView);
+
+        webview.setWebViewClient(new WebViewClient());
+        webview.getSettings().setJavaScriptEnabled(true);
+        webview.getSettings().setDomStorageEnabled(true);
+        webview.setOverScrollMode(WebView.OVER_SCROLL_NEVER);
+        webview.loadUrl(videoURL);
+
+       }
+      }
+            </code></pre>
+          </div>
+          <p style="text-align: left;padding: 0px 30px;">
+            Then, in the activity_main.xml file (under the res/layouts folder), one must also remember to put in a WebView object so that the findViewById" line can find the view and load the website onto that view.
+            <br><br>
+          </p>
+          <h4 style="text-align: left;padding: 0px 30px;">Bugs</h4>
+          <p style="text-align: left;padding: 0px 30px;">
+            If the phone still cannot access the website, one should check their AndroidManifext.xml file (under the manifests folder) if it has the 
+            <b>&lt;uses-permission android:name="android.permission.INTERNET"/&gt;</b> line included. We also found a bug where the phone could not access the website if it was not under the same Cornell Wifi as the robot. So, one should make sure that if the Pi is livestreaming the camera and audio information online under the Cornell Wifi that the phone is also using the Cornell Wifi (not data).
+          </p>
+
+      </div>
+
       <hr id='control'>
 
       <div style="text-align:center;">
               <h2>Controlling the Robot with a Phone</h2>
+              <div class="col-md-4" style="text-align:center;">
+              <img class="img-rounded" src="pics/accelerometer.png" alt="Phone coordinate system for sensors" width="240" height="240">
+              </div>
+              <br>
               <p style="text-align: left;padding: 0px 30px;"> 
-              To control the robot wirelessly, we needed to create a socket to send accelerometer information from the phone (the server) to be received by the Raspberry Pi (the client). 
+              To control the robot wirelessly, we needed to create a socket to send accelerometer information from the phone (the server) to be received by the Raspberry Pi (the client). All code can be either seen in the Code Appendix section or on the <a href="https://github.com/cya6/WifiRobot">github repository</a>.
               </p> 
               <h3>1. Configuring the Phone's Accelerometer </h3>
               <p style="text-align: left;padding: 0px 30px;"> 
@@ -156,7 +201,6 @@
                 We also then configure the SensorManager to allow us listen to the information from the phone's accelerometer. Next, by using the sensor class, there are two functions that must be included in the MainActivity file : onAccuracyChanged and onSensorChanged. For our purposes, we only use onSensorChanged since we only wanted to read the x, y, and z values output by the accelerometer. In the onSensorChanged function, it takes in a sensor event which then contains the x, y, and z values from the sensor. We then save this information by saving the read values to a string.
                 <br> 
               </p>
-
                 <div align = "left">
                 <pre><code>
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
@@ -199,10 +243,94 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 To see the accelerometer values for yourself, you can use Log.d to print out the values to Android Studio's Logcat. Next, after setting up the accelerometer on the phone, we needed to send it to the RPi. 
               </p>
               <h3>2. Sending information to the RPi with Socket Programming </h3>
+
+              <h4 style="text-align: left; padding: 0px 30px">Server side ( Android Application )</h4>
               <p style="text-align: left;padding: 0px 30px;"> 
+                We used socket programming to send information from the phone to the RPi. The phone was set up as the server by following the information <a href="http://androidsrc.net/android-client-server-using-sockets-server-implementation/">here</a>. 
+                <br><br>
+                Following this tutorial, after setting up the server as they did, we changed some parts of it to send to the client the accelerometer information continuously. In MainActivity.java, we initialize the server in onCreate. We also include a function that will destroy the server when the application is closed. 
+                <div align="left">
+                  <pre><code>
+        public class MainActivity extends AppCompatActivity implements SensorEventListener {
+          Server server ;
+          ...
+
+          @Override 
+          protected void onCreate(Bundle savedInstanceState) {
+            ...
+            server = newServer(this);
+            ...
+          }
+          ...
+
+          @Override
+          protected void onDestroy() {
+              super.onDestroy();
+              server.onDestroy();
+          }
+        }
+                  </code></pre>
+                </div> <p>
+              <p style="text-align: left;padding: 0px 30px;">
+                In Server.java, in the run () code section, we see that it has an outputStream that it sends to the Client, in our case the RPi. We change the section to continuously in a while ( true ) loop, print to the outputStream the x, y, and z values recorded in MainActivity. With this, the server has been set up to send across the accelerometer information. We also modified the tutorial code to not print out anything on the application screen.
               </p>
+              <div align="left">
+                <pre><code>
+        @Override
+        public void run() {
+            OutputStream outputStream ;
+
+            try {
+                outputStream = hostThreadSocket.getOutputStream();
+                PrintStream printStream = new PrintStream(outputStream);
+                while (true) {
+                    printStream.println(activity.x + "\n" +
+                            activity.y + "\n" +
+                            activity.z  + "\n");
+                    sleep(1000);
+                }
+                printStream.close();
+
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+                message += "Something wrong! " + e.toString() + "\n";
+            }
+            catch (InterruptedException e) {
+                e.printStackTrace();
+                message += "Something wrong! " + e.toString() + "\n";
+            }
+
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    activity.msg.setText(message);
+                }
+            });
+        }
+                </code></pre>
+              </div>
+              <br>
+              <h4 style="text-align: left; padding: 0px 30px">Client side ( from the RPi point of view )</h4>
+              <p style="text-align: left;padding: 0px 30px;"> 
+                To set up the client code on the Raspberry Pi, we followed the "Echo Client" code in this <a href="https://realpython.com/python-sockets/">tutorial</a>.
+                <br>
+                The HOST value was set to the IP address of the android phone ( which can be found by clicking on the wifi button on your phone ).
+                We also made sure it was using the same port as was used on the application side in Server.java. A change we made however was to continuously receive data, decode it into ASCII characters, and then send that information to a FIFO. This FIFO is important as it is what we will use to control the robot with the accelerometer. The code can be seen in our <a href="https://github.com/cya6/WifiRobot">repository</a> under client.py.
+              </p>
+
               <h3>3. Moving the robot with the accelerometer information</h3>
               <p style="text-align: left;padding: 0px 30px;">
+                Finally, to move the robot, we read from the FIFO and based on the values from the accelerometer, decide to turn left, right, forward, or backwards. Code for this is found in our repository, under <a href="https://github.com/cya6/WifiRobot/blob/master/project/robot_control.py">robot_control.py</a>.
+                <br><br>
+                To allow the user to stand in any direction and start moving the robot, we first allow for a calibration period in the beginning where it will set the x and z values read to be the setting for which the user wishes to keep the robot still. 
+                <br>
+                Next, after it is calibrated, it continues to read lines from the FIFO. We realized that when the phone (set horizontally) is tilted forward, the z value goes up by 0.1 and x value down by 0.1 from its steady state. To prevent from false forwards however, we set the code up so that it must detect this at least twice before it goes forward. Similarly, to go backwards, it detects that the z value goes down by 0.1 and x value up by 0.1 from its steady state. These threshold values were decided on after trial and error and may need to be adjusted if used on another device.
+                We also use a buffer here before we actually decide to move the robot backwards. If neither of these conditions are detected, we keep the robot still. 
+                <br> <br>
+                To go left or right, we depend solely on the x values read from the accelerometer. We also prevent the robot from turning if the user is going forward or backwards at that moment. To go right, we see if the x value goes down by 0.1 and to go left, if it goes up by 0.05. Similarly, this values were also found through trial and error and may need to be adjusted if run on another device. We also use a buffer here to detect more than 2 lefts or rights before the robot will actually turn right or left. If neither are detected, it will remain still. 
+                <br>
+
               </p>
       </div>
 
@@ -252,10 +380,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
           <ul>
               <li>Raspberry Pi $35.00</li>
               <li>Raspberry Pi Camera V2 $25.00</li>
-              <a href="https://www.adafruit.com/product/1463"><li>NeoPixel Ring - $9.95</li></a>
+              
               <li>LEDs, Resistors and Wires - Provided in lab</li>
           </ul>
-          <h3>Total: $69.95</h3>
+          <h3>Total: $?</h3>
       </div>
       <hr>
       <div style="font-size:18px">
@@ -267,6 +395,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
           </a><br>
           <a href="https://developer.android.com/guide/topics/sensors/sensors_motion.html"> Android Sensor Information
           </a><br>
+          <a href="http://androidsrc.net/android-client-server-using-sockets-server-implementation/"> Android Socket Programming
+          </a><br>
+          <a href="https://realpython.com/python-sockets/"> Python Socket Programming
+          </a><br>
 
 
       </div>
@@ -275,112 +407,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
       <div class="row">
               <h2>Code Appendix</h2>
-              <h3>Robot Control Code </h3>
-              <pre><code>
-import RPi.GPIO as GPIO
-import time
-import pygame
-import sys
-from pygame.locals import *
-import os
-
-stop_d = 0
-stop_f = 1/(0.0215)
-run = True
-
-#CONTROL INITIALIZATION--------------------------------
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(16, GPIO.OUT)
-GPIO.setup(5, GPIO.OUT)
-
-#left
-p1 = GPIO.PWM(16, 46.1)
-p1.start(0)
-
-#right
-p2 = GPIO.PWM(5, 46.1)
-p2.start(0)
-#--------------------------------------------------
-
-#direction clockwise = 1, stop = 0, counter = -1
-def full_speed (servo, direction) :
-    if ( direction == 1 ) :
-        if ( servo == 1 ) :
-            # Make it go clockwise
-        if ( servo == 2 ):
-            # Make it go clockwise
-    if ( direction == 0 ) :
-        if ( servo == 1 ) :
-            # Make it stop
-        if ( servo == 2 ):
-            # Make it stop
-    if ( direction == -1 ) :
-        if ( servo == 1 ) :
-            # Make it go counterclockwise
-        if ( servo == 2 ) :
-            # Make it go counterclockwise
-
-def left_turn():
-    start = time.time()
-    while ( time.time() - start < 1.3 ) :
-        full_speed(1, 0)
-        full_speed(2, 1)
-
-def forward() :
-    full_speed(1,1)
-    full_speed(2,1)
-
-def backward():
-    full_speed(1,-1)
-    full_speed(2,-1)
-
-def right_turn():
-    start = time.time()
-    while ( time.time() - start < 1.3) :
-        full_speed(2,0)
-        full_speed(1,1)
-
-def stop():
-    full_speed(2,0)
-    full_speed(1,0)
-
-FIFO = '/home/pi/WifiRobot/project/robot_fifo'
-
-try :
-    run = True
-    fifo = open(FIFO)
-    y = 0
-    x = 0
-
-    while run :
-        time.sleep(0.2)
-        #Read from FIFO
-        while True:                              
-            line = fifo.read()
-            if len(line) > 2 :
-                
-                #Move robot according to accelerometer readings
-                split_line =  line.split( "\n" )
-                for l in split_line :
-                    t = l.split(":")
-
-                    #Move forward or backwards depending on the ZValue
-                    if ( t[0] == "zValue" ) :
-                        z = float(t[1])
-                        #Based on z value, go forward, backwards, or stay still
-
-                    #Move left or right
-                    elif ( t[0] == "xValue" ):
-                        x = float(t[1])
-                        # Based on x value, go right, left, or stay still
-
-            
-
-except KeyboardInterrupt:
-    p1.stop()
-    p2.stop()
-    GPIO.cleanup()
-              </code></pre>
+              <h3><a href="https://github.com/cya6/WifiRobot/blob/master/project/robot_control.py">Robot Control Code</a> </h3>
+              <h3><a href="https://github.com/cya6/WifiRobot/blob/master/project/client.py">Client Code</a> </h3>
+              <h3><a href="https://github.com/cya6/WifiRobot/blob/master/project/rpi_camera.py">Camera Code</a> </h3>
       </div>
 
     </div><!-- /.container -->
