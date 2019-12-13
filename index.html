@@ -384,8 +384,20 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
       <div style="text-align:center;">
               <h2>Testing</h2>
               <p style="text-align: left;padding: 0px 30px;">
-                test
+                We tested our camera's configuration by first taking some sample still pictures. Similarly, we tested the audio's configuration by recording some short snippets using the tutorial.<br>
+                We tested the livestream of the camera and audio by going on the website and checking if the latency between the moving on the camera and seeing it on the website was ok. The camera latency was pretty good but the audio latency was slow ( varied from 3 seconds to 20 seconds ). <br>
+                We tested the phone application by running it on the phone and seeing that we could see the camera and audio output well, similar to how we saw it on the desktop website. </p>
+                <img class="img-rounded" src="pics/testing_camera.jpg" alt="camera view on phone" width="350" height="480">
+                <p><i>Testing the camera's view on the phone</i></p>
+              <p style="text-align: left;padding: 0px 30px;">
+                We tested moving the robot by running the code, and using the application on the phone to move it forward, backward, right, and left. <br>
               </p>
+
+          <video id="video" width="640" height="330" autoplay="autoplay" controls>
+          <source src="testing_move.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+          </video>
+          <p><i>Moving the robot with the phone</i></p>
       </div>
 
     <hr id='result'>
