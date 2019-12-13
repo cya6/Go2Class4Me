@@ -9,6 +9,14 @@ html {
   -webkit-text-size-adjust: 100%;
       -ms-text-size-adjust: 100%;
 }
+#main_img {
+  width: 100%;
+  display: block;
+  background-blend-mode: lighten;
+  opacity: 0.6;
+  	transition: opacity 0.5s ease;
+}
+
 body {
   margin: 0;
 }
