@@ -139,7 +139,7 @@
 
                 Then we ran <code> sudo raspi-config</code> in the terminal
                 to enable the camera. This is achieved by selecting
-                <em> 5 Interfacing Options -> P1 Camera -> Yes</em>.
+                <strong> 5 Interfacing Options -> P1 Camera -> Yes</strong>.
 
                 If the camera option is not available, then an update needs
                 to be made, which in this case, <code>sudo apt-get update</code>
@@ -172,7 +172,7 @@
 
                 <br><br>
 
-                <img class="img-rounded" src="pics/camera1.HEIC" alt="testing camera" width="240" height="240">
+                <img class="img-rounded" src="pics/camera1.jpg" alt="testing camera" width="240" height="240">
                 <p><i>Camera live feed showing up on phone</i></p>
 
               </p>
@@ -183,11 +183,158 @@
       <div style="text-align:center;">
               <h2>Audio</h2>
               <p style="text-align: left;padding: 0px 30px;">
-             <li>We used this microphone < put info on it here >
-             <li>We set up the audio < detail steps on how its done >
-             <li>It plays on a website.
-             <li>Edited the rpi camera code to put the audio on the website as well.
-             <li>Comments: the microphone sucks. Possible improvement is to use an earphone's mic instead.
+              We used this
+              <a href="https://www.amazon.com/eBerry-Microphone-Adjustable-Compatible-Recording/dp/B00UZY2YQE">microphone</a>
+              which connected to the Raspberry Pi via USB.
+              To check the USB connections, we entered <code>lsusb</code> in the
+              terminal. To test out the audio output, we used the
+              <code>arecord</code> and <code>aplay</code> commands and followed
+              the following steps from this
+              <a href="https://blog.mutsuda.com/raspberry-pi-into-an-audio-spying-device-7a56e7a9090e#.fr4l82xek">tutorial</a>.
+
+              <br><br>
+
+              We loaded the audio module <code>sudo modprobe snd_bcm2835</code>
+              and tested the output by recording some sound with
+              <code>arecord -D plughw:1,0 test.wav</code> and exited the command
+              when finished recording (control+c). To hear the sound back, we used
+              <code>aplay test.wav</code>. To adjust the sound of the microphone
+              we used <code>alsamixer</code> and saved the settings using
+              <code>sudo alsactl store</code>. We found that the sound was
+              generally a bit quiet, so turning the microphone volume high
+              was a good idea.
+
+              <br><br>
+
+              To make this sound play on the phone, we had to find a way to
+              make it stream to a website. We found that this would be possible
+              using <a href="http://www.darkice.org/">DarkIce</a> and
+              <a href="http://icecast.org/">Icecast</a> packages through the
+              following <a href="https://maker.pro/raspberry-pi/projects/how-to-build-an-internet-radio-station-with-raspberry-pi-darkice-and-icecast">tutorial</a>.
+              DarkIce is allows one to record audio and stream it by
+              encoding the audio and sending the mp3 stream to a streaming server (in our
+              case, Icecast). Icecast is a audio streaming server, which we utlize
+              to run the audio stream.
+
+              We entered the following three lines in the terminal.
+
+              <br><br>
+
+              <pre align="left"><code>
+    wget https://github.com/x20mar/darkice-with-mp3-for-raspberry-pi/blob/master/darkice_1.0.1-999~mp3+1_armhf.deb?ra
+    w=true mv darkice_1.0.1-999~mp3+1_armhf.deb?raw=true darkice_1.0.1-999~mp3+1_armhf.deb
+    sudo apt-get install libmp3lame0 libtwolame0
+    sudo dpkg -i darkice_1.0.1-999~mp3+1_armhf.deb
+              </code></pre>
+
+              <br><br>
+              <p style="text-align: left;padding: 0px 30px;">
+                Next, we downloaded Icecast <code>sudo apt-get install icecast2</code>.
+                On the window that pops up, we selected "Yes" to configure Icecast2.
+                We used the default hostname "localhost", as well as the default
+                source password and relay password.
+
+
+              <br><br>
+
+
+              After the installation of Icecast2, we made a config file
+              <code>sudo nano darkice.cfg</code> for DarkIce.
+
+              In the file, we pasted the following configurations:
+              </p>
+
+              <pre align="left"><code>
+      [general]
+      duration        = 0      # duration in s, 0 forever
+      bufferSecs      = 1      # buffer, in seconds
+      reconnect       = yes    # reconnect if disconnected
+
+      [input]
+      device          = plughw:1,0 # Soundcard device for the audio input
+      sampleRate      = 44100   # sample rate 11025, 22050 or 44100
+      bitsPerSample   = 16      # bits
+      channel         = 2       # 2 = stereo
+
+      [icecast2-0]
+      bitrateMode     = cbr       # constant bit rate ('cbr' constant, 'abr' average)
+      #quality         = 1.0       # 1.0 is best quality (use only with vbr)
+      format          = mp3       # format. Choose 'vorbis' for OGG Vorbis
+      bitrate         = 320       # bitrate
+      server          = localhost # or IP
+      port            = 8000      # port for IceCast2 access
+      password        = hackme    # source password for the IceCast2 server
+      mountPoint      = rapi.mp3  # mount point on the IceCast2 server .mp3 or .ogg
+      name            = Raspberry Pi
+              </pre></code>
+
+              <p style="text-align: left;padding: 0px 30px;">
+              We created another file called <code>darkice.sh</code>
+              and used the command <code>sudo nano darkice.sh</code>
+              to paste the following configurations.
+
+              </p>
+
+              <br><br>
+              <pre align="left"><code>
+    #!/bin/bash <br>
+    sudo /usr/bin/darkice -c /home/pi/darkice.cfg
+              </pre></code>
+
+              <p style="text-align: left;padding: 0px 30px;">
+              To make this file executable, we ran <code>sudo chmod 777 /home/pi/darkice.sh</code>
+              and ran the following three commands to start the Icecast2 service.
+              </p>
+
+
+              <pre align="left"><code>
+    sudo service icecast2 start <br>
+    sudo chmod 777 /home/pi/darkice.sh <br>
+    sudo service icecast2 start
+              </pre></code>
+
+              <p style="text-align: left;padding: 0px 30px;">
+              We then entered the command <code>select-editor</code> and selected
+              2 for the nano editor (<code>crontab -e</code>). In the bottom
+              of the text file that appeared, we pasted the following line,
+              which alows the Raspberry Pi to wait for 10 seconds before it
+              starts the stream to initialize:
+              <code>@reboot sleep 10 && sudo /home/pi/darkice.sh</code>.
+
+              <br><br>
+
+              After a reboot (<code>sudo reboot</code>) of the Raspberry Pi, we
+              used the command <code>ifconfig</code> to check the IP address of the
+              Raspberry Pi (if it has changed), and can now go to the website
+              <strong>http://Your_Pi_IP_Address:8000</strong> to get to the Icecast2 page.
+              From there, we can click on the M3U button on the top right corner
+              and it will take us to a livestream feed of the audio.
+              By going to <strong>http://Your_Pi_IP_Address:8000/rapi.mp3</strong>,
+              we could directly play the stream. We added this to the Raspberry
+              Pi camera code, so that the livestream audio could display on the
+              website as well.
+
+              <br><br>
+
+              One problem we encountered in our beginning stages of installing DarkIce
+              was when we tried to use the wheezy debian
+              release instead of the buster one. This happened because many
+              tutorials online for audio streaming were older, and therefore used
+              and older (first) version of the debian release.
+              It caused one of our SD cards
+              to no longer be able to read or write.
+
+              <br><br>
+
+              Another issue we had with the USB microphone was that the sound
+              was inconsistent. Sometimes when we would test it, the sound would
+              be clear, and other times the noise would be so loud that other
+              outside sounds could not be heard. We found that talking closer
+              to the microphone generally would produce clearer results. One way
+              improve the microphone was suggested to us to use an iPhone earbud
+              microphone, and this can be possibly implemented in the future. 
+
+              </p>
           </p>
       </div>
 
@@ -413,9 +560,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
               <p style="text-align: left;padding: 0px 30px;">
                 We tested moving the robot by running the code, and using the application on the phone to move it forward, backward, right, and left. <br>
               </p>
-
-              <img class="img-rounded" src="pics/testing_system.HEIC" alt="testing entire process" width="350" height="480">
-              <p><i>Testing the wheel movement with the camera</i></p>
 
           <video id="video" width="640" height="330" autoplay="autoplay" controls>
           <source src="testing_move.mp4" type="video/mp4">
