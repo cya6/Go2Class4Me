@@ -62,7 +62,8 @@
 
       <div class="starter-template">
         <h1>ECE 5725 Project : Go2Class4Me Robot</h1>
-        <p class="lead">Created by: Christine Ahn (cya6), Sophie He (bh377)</p>
+        <p class="lead">Created by: Christine Ahn (cya6), Sophie He (bh377)<br>
+        Date : December 14, 2019 </p>
       </div>
 
       <hr>
@@ -394,7 +395,7 @@
 
       <div style="text-align:center;">
               <h2>Controlling the Robot with a Phone</h2>
-              <div class="col-md-4" style="text-align:center;">
+              <div align="center">
               <img class="img-rounded" src="pics/accelerometer.png" alt="Phone coordinate system for sensors" width="240" height="240">
               </div>
               <br>
@@ -554,13 +555,19 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
       <div style="text-align:center;">
               <h2>Testing</h2>
               <p style="text-align: left;padding: 0px 30px;">
-                We tested our camera's configuration by first taking some sample still pictures. Similarly, we tested the audio's configuration by recording some short snippets using the tutorial.<br>
-                We tested the livestream of the camera and audio by going on the website and checking if the latency between the moving on the camera and seeing it on the website was ok. The camera latency was pretty good but the audio latency was slow ( varied from 3 seconds to 20 seconds ). <br>
-                We tested the phone application by running it on the phone and seeing that we could see the camera and audio output well, similar to how we saw it on the desktop website. </p>
+                First, we tested that our robot setup from Lab 3 was still working properly such that the robot could still move. This was important because we actually did find some errors with our servos: our left servo couldn't move. We tried various things such as replacing the batteries and switching out the servo. However, in the end, we realized it was a problem in the code and that we were setting up the wrong GPIO pin. 
+                <br>
+                Then, we tested our camera's configuration on the Raspberry Pi by first taking some sample still pictures. Similarly, we tested the audio's configuration by recording some short snippets using the tutorial. 
+                <br>
+                Next, after confirming that the camera and microphone were properly configured, we tested the livestream of the camera and audio by going on the website. We primarily checked if the latency between the moving on the camera and seeing it on the website was ok. The camera latency was pretty good but the audio latency was slow ( varied from 3 seconds to 20 seconds ). 
+                <br>
+                We tested the phone application by running it on the phone and seeing that we could see the camera and audio output well, similar to how we saw it on the desktop website. 
+              </p>
                 <img class="img-rounded" src="pics/testing_camera.jpg" alt="camera view on phone" width="350" height="480">
                 <p><i>Testing the camera's view on the phone</i></p>
               <p style="text-align: left;padding: 0px 30px;">
-                We tested moving the robot by running the code, and using the application on the phone to move it forward, backward, right, and left. <br>
+                We tested moving the robot by running the code, and using the application on the phone to move it forward, backward, right, and left. We also tested using the robot at far distances, checking that the Wifi connection would work. However, in testing this, although the robot would still move we saw that the camera latency became very laggy and could not fix this.
+                <br>
               </p>
 
           <div style="text-align: center">
@@ -580,7 +587,41 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
       <div style="text-align:center;">
               <h2>Result</h2>
               <p style="text-align: left;padding: 0px 30px;">
-                final res
+                In the end, we were able to achieve the overall goal of our project : to move the robot wirelessly with our phone. We were able to meet out goals of : 
+                <ul style="text-align: left;padding: 0px 70px;">
+                  <li>Learning how to socket program so that the RPi and phone could communicate </li>
+                  <li>Configure and send accelerometer information from the phone to the RPi</li>
+                  <li>Move the robot with the accelerometer information</li>
+                  <li>Set up the RPi camera and audio and livestream it online </li>
+                  <li>Have the phone be able to see and hear the livestream</li>
+                </ul>
+              </p>
+                <p style="text-align: left;padding: 0px 30px;">
+                Something we weren't able to achieve was using the VR headset in conjunction with our already established design. We decided to not use the VR headset in the end because of timing issues and were not sure if we could callibrate the accelerometer values well with the VR headset. We also decided that just using the phone was also okay and still let us see and hear what the robot sees and hears.
+              </p>
+      </div>
+
+      <hr id='conclusion'>
+
+      <div style="text-align:center;">
+              <h2>Conclusions</h2>
+              <p style="text-align: left;padding: 0px 30px;">
+                Our project was able to successfully move the robot wirelessly with our phone and finish all project objectives. However, in the end, we discovered that the microphone used did not work well ( latency and sound issues ) and that using an earphone's microphone might've worked better. We also found that although Wifi should be reliable, there still existed some lagging once the robot became too far away. We guess that this may be because the IP address depending on where we are working on the robot ( despite being on the same Cornell Wifi ) changes. <br>
+                Overall, we believe our project was successful in being able move wirelessly and allow someone to go enter a classroom without beng there themselves.
+              </p>
+      </div>
+
+      <hr id='future work'>
+
+      <div style="text-align:center;">
+              <h2>Future Work</h2>
+              <p style="text-align: left;padding: 0px 30px;">
+                In the future, this project could be improved on by implementing a few more objectives:
+                <ul style="text-align: left;padding: 0px 60px;">
+                  <li>We could implement the VR headset and re-configure the thresholds for turning backward, forward, left, and right when the VR headset is in use. In using the VR headset, one could also try to configure or get a new camera that would allow the user to feel like they are the robot ( as VR view is different from regular flat camera view ). </li>
+                  <li>We could fix the latency and audio issues of the microphone by using a different microphone. Nowadays, the microphones used on earphones ( like Apple's ) are good enough to filter out other noises and focus only on the speaker. We could've used and try to configure this microphone instead for better quality. </li>
+                  <li>We could fix the robot architecture and design to be taller and allow for a more smoother and human-like view from the camera. Since the robot is small, the view that it sees is from the ground which doesn't actually let the user see the screen of any room ( unless the screen of the room is on a lower level compared to the robot ). The robot could be redesigned to be taller, and also firmly place the camera so that it does not move so much while the robot is moving. </li>
+                </ul>
               </p>
       </div>
 
@@ -593,16 +634,16 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
               <h4>Project group picture</h4>
           </div>
           <div class="col-md-6" style="font-size:16px">
-              <img class="img-rounded" src="pics/a.png" alt="Generic placeholder image" width="240" height="240">
+              <img class="img-rounded" src="pics/christine.jpg" alt="christine" width="240" height="240">
               <h3>Christine</h3>
               <p class="lead">cya6@cornell.edu</p>
-              <p>Worked on the robot.
+              <p>Worked on the robot.</p>
           </div>
           <div class="col-md-6" style="font-size:16px">
-              <img class="img-rounded" src="pics/b.png" alt="Generic placeholder image" width="240" height="240">
+              <img class="img-rounded" src="pics/sophie.jpg" alt="sophie" width="240" height="240">
               <h3>Sophie</h3>
               <p class="lead">bh377@cornell.edu</p>
-              <p>Hugged christine
+              <p>Edit this sophie</p>
           </div>
       </div>
 
