@@ -63,7 +63,8 @@
       <div class="starter-template">
         <h1>ECE 5725 Project : Go2Class4Me Robot</h1>
         <p class="lead">Created by: Christine Ahn (cya6), Sophie He (bh377)<br>
-        Date : December 14, 2019 </p>
+          Submission Date: December 14, 2019
+        </p>
       </div>
 
       <hr>
@@ -80,21 +81,28 @@
                 One day at Cornell University, two students, Christine and Sophie were wondering what they should do for their final project in their Embedded OS class. While walking to their classes, they realized, "Ah, winter is coming" and there, an idea popped in both of their minds. What if something could go to class in their stead? Instead of walking to class in the cold weather, especially when it starts to snow, we could just virtually be there through a robot? And even better, on days where we are just too tired to get out of bed, this robot could still go to class for us!
                 <br><br>
                 For any time, whether you are too lazy to get out of bed or the slushy snow outside is too serious of a slipping hazard, here we introduce and propose a wirelessly controlled robot that can go to class for students. While in your bed, all you need to do is open the app, and then move your phone to move the robot!
+-short descrip of what was done for the project
+                <br><br>
+                For this project, we used the Raspberry Pi camera and a USB microphone
+                to stream live video and audio to a web server, which the phone
+                could also connect to. The phone acclerometer was calibrated and
+                used to control the movement of the robot.
+
+              </p>
+      </div>
+
+      <div style="text-align:center;">
+              <h2>Objective</h2>
+              <p style="text-align: left;padding: 0px 30px;">
+                The goal for this project is to wirelessly be able to control
+                a robot using a phone from any location in a building. The user
+                will be able to see and hear what the robot sees and hears through
+                the phone interface. In the end, this system could possibly attend
+                class for a student, amongst other things!
               </p>
       </div>
 
     <hr id='obj'>
-
-      <div class="row">
-          <div class="col-md-8" style="font-size:18px;">
-          <h2>Project Objective:</h2>
-          <ul>
-              <li>Control the robot wirelessly using a phone.</li>
-              <li>See and hear what the robot sees and hears through the phone.</li>
-              <li>Feel that one could possibly have the robot go to class for them.</li>
-          </ul>
-          </div>
-      </div>
 
     <hr id='design'>
 
@@ -107,7 +115,7 @@
           <p style="text-align: left;padding: 0px 30px;">
               Our project consists of a robot that can move forward, backward, turn left, and turn right depending on inputs from a wireless accelerometer on a phone. The robot can also capture audio through a microphone and video imaging using a camera, both configured onto the robot. The image and audio are transmitted to a phone via WiFi.
               <br>
-              By the end of our 5 weeks, we have successfully accomplished the following :
+              By the end of our 5 weeks, we have successfully accomplished the following:
             <ul style="text-align: left;padding: 0px 30px;">
               <li>Implemented socket programming for communication between the robot and phone</li>
               <li>Built robot using materials provided in Lab 3</li>
@@ -555,13 +563,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
       <div style="text-align:center;">
               <h2>Testing</h2>
               <p style="text-align: left;padding: 0px 30px;">
-                First, we tested that our robot setup from Lab 3 was still working properly such that the robot could still move. This was important because we actually did find some errors with our servos: our left servo couldn't move. We tried various things such as replacing the batteries and switching out the servo. However, in the end, we realized it was a problem in the code and that we were setting up the wrong GPIO pin. 
+                First, we tested that our robot setup from Lab 3 was still working properly such that the robot could still move. This was important because we actually did find some errors with our servos: our left servo couldn't move. We tried various things such as replacing the batteries and switching out the servo. However, in the end, we realized it was a problem in the code and that we were setting up the wrong GPIO pin.
                 <br>
-                Then, we tested our camera's configuration on the Raspberry Pi by first taking some sample still pictures. Similarly, we tested the audio's configuration by recording some short snippets using the tutorial. 
+                Then, we tested our camera's configuration on the Raspberry Pi by first taking some sample still pictures. Similarly, we tested the audio's configuration by recording some short snippets using the tutorial.
                 <br>
-                Next, after confirming that the camera and microphone were properly configured, we tested the livestream of the camera and audio by going on the website. We primarily checked if the latency between the moving on the camera and seeing it on the website was ok. The camera latency was pretty good but the audio latency was slow ( varied from 3 seconds to 20 seconds ). 
+                Next, after confirming that the camera and microphone were properly configured, we tested the livestream of the camera and audio by going on the website. We primarily checked if the latency between the moving on the camera and seeing it on the website was ok. The camera latency was pretty good but the audio latency was slow ( varied from 3 seconds to 20 seconds ).
                 <br>
-                We tested the phone application by running it on the phone and seeing that we could see the camera and audio output well, similar to how we saw it on the desktop website. 
+                We tested the phone application by running it on the phone and seeing that we could see the camera and audio output well, similar to how we saw it on the desktop website.
               </p>
                 <img class="img-rounded" src="pics/testing_camera.jpg" alt="camera view on phone" width="350" height="480">
                 <p><i>Testing the camera's view on the phone</i></p>
@@ -576,18 +584,19 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
           <p><i>Moving the robot with the phone</i></p>
       </div>
 
-
       <div style="text-align: center">
-        <iframe width="534" height="300" src="https://www.youtube.com/embed/vVT-JkmS2Tc" frameborder="0" allowfullscreen=""></iframe>
+        <div style="text-align: center">
+          <iframe width="534" height="300" src="https://www.youtube.com/embed/vVT-JkmS2Tc" frameborder="0" allowfullscreen=""></iframe>
+        </div>
+        <p><i>Robot entering a classroom in Phillips</i></p>
       </div>
-
 
     <hr id='result'>
 
       <div style="text-align:center;">
               <h2>Result</h2>
               <p style="text-align: left;padding: 0px 30px;">
-                In the end, we were able to achieve the overall goal of our project : to move the robot wirelessly with our phone. We were able to meet out goals of : 
+                In the end, we were able to achieve the overall goal of our project: to move the robot wirelessly with our phone. We were able to meet out goals of:
                 <ul style="text-align: left;padding: 0px 70px;">
                   <li>Learning how to socket program so that the RPi and phone could communicate </li>
                   <li>Configure and send accelerometer information from the phone to the RPi</li>
@@ -643,7 +652,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
               <img class="img-rounded" src="pics/sophie.jpg" alt="sophie" width="240" height="240">
               <h3>Sophie</h3>
               <p class="lead">bh377@cornell.edu</p>
-              <p>Edit this sophie</p>
+              <p>Worked on camera and audio streaming and connecting the parts.</p>
           </div>
       </div>
 
